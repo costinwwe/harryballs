@@ -1,6 +1,73 @@
-import React from 'react'
+import React, { useState } from 'react'
+import assets from "../assets/assets"
 
 const Content = () => {
+  // Quiz state management
+  const [quizAnswers, setQuizAnswers] = useState({
+    q1: '',
+    q2: '',
+    q3: '',
+    q4: '',
+    q5: '',
+    q6: '',
+    q7: '',
+    q8: ''
+  });
+  const [quizSubmitted, setQuizSubmitted] = useState(false);
+  const [score, setScore] = useState(0);
+
+  // Handle quiz answer selection
+  const handleAnswerChange = (question, answer) => {
+    setQuizAnswers({
+      ...quizAnswers,
+      [question]: answer
+    });
+  };
+
+  // Handle quiz submission
+  const handleQuizSubmit = (e) => {
+    e.preventDefault();
+    
+    // Correct answers
+    const correctAnswers = {
+      q1: 'b', // Daniel Radcliffe
+      q2: 'c', // July 31, 1980
+      q3: 'a', // Scottish Highlands
+      q4: 'b', // Power, growth, and identity
+      q5: 'c', // J.K. Rowling uses "K" as a tribute to her grandmother
+      q6: 'a', // Ron Weasley and Hermione Granger
+      q7: 'b', // 7
+      q8: 'c'  // Platform 9¾
+    };
+    
+    // Calculate score
+    let newScore = 0;
+    Object.keys(correctAnswers).forEach(question => {
+      if (quizAnswers[question] === correctAnswers[question]) {
+        newScore += 1;
+      }
+    });
+    
+    setScore(newScore);
+    setQuizSubmitted(true);
+  };
+
+  // Reset quiz
+  const resetQuiz = () => {
+    setQuizAnswers({
+      q1: '',
+      q2: '',
+      q3: '',
+      q4: '',
+      q5: '',
+      q6: '',
+      q7: '',
+      q8: ''
+    });
+    setQuizSubmitted(false);
+    setScore(0);
+  };
+
   return (
     <div className="content">
       <h1>Harry Potter Blog</h1>
@@ -26,6 +93,10 @@ const Content = () => {
           Voldemort and restore peace to the wizarding world. Despite his fame and extraordinary
           abilities, Harry remains humble, valuing love, friendship, and justice above all else.
         </p>
+        <div className="image-container">
+          <img src={assets.harry} alt="Harry Potter" className="character-image" />
+          <div className="image-caption">The iconic Harry Potter with his lightning scar and wand</div>
+        </div>
         
         <section id="harry-potter-actor">
           <h3>1.1 The Actor behind Harry Potter</h3>
@@ -47,6 +118,10 @@ const Content = () => {
             post-Potter projects include The Woman in Black (2012), Swiss Army Man (2016), and Now
             You See Me 2 (2016).
           </p>
+          <div className="image-container">
+            <img src={assets.daniel} alt="Daniel Radcliffe" className="character-image" />
+            <div className="image-caption">Daniel Radcliffe, who brought Harry Potter to life on screen</div>
+          </div>
         </section>
       </section>
 
@@ -92,7 +167,11 @@ const Content = () => {
           on July 31, 1965, in Yate, Gloucestershire, England, Rowling had a passion for writing from
           a young age. However, her journey to literary success was far from easy.
         </p>
-
+        <div className="image-container">
+          <img src={assets.joane} alt="J.K. Rowling" className="character-image" />
+          <div className="image-caption">J.K. Rowling, the brilliant author behind the Harry Potter series</div>
+        </div>
+        
         <section id="author-biography">
           <h3>3.1 The biography of the author</h3>
           <p>
@@ -323,6 +402,332 @@ const Content = () => {
             young minds discovering the books for the first time.
           </p>
         </section>
+      </section>
+
+      <section id="quizz">
+        <h2>9. Quiz time!!</h2>
+        <p>
+          Test your knowledge about Harry Potter and the Wizarding World with this interactive quiz.
+          Answer all questions and see how well you know the magical universe created by J.K. Rowling!
+        </p>
+        
+        <div className="quiz-container">
+          {!quizSubmitted ? (
+            <form onSubmit={handleQuizSubmit} className="quiz-form">
+              <div className="quiz-question">
+                <h3>1. Who played Harry Potter in the film series?</h3>
+                <div className="quiz-options">
+                  <label className="quiz-option">
+                    <input 
+                      type="radio" 
+                      name="q1" 
+                      value="a" 
+                      checked={quizAnswers.q1 === 'a'} 
+                      onChange={() => handleAnswerChange('q1', 'a')}
+                      required 
+                    />
+                    <span>Rupert Grint</span>
+                  </label>
+                  <label className="quiz-option">
+                    <input 
+                      type="radio" 
+                      name="q1" 
+                      value="b" 
+                      checked={quizAnswers.q1 === 'b'} 
+                      onChange={() => handleAnswerChange('q1', 'b')} 
+                    />
+                    <span>Daniel Radcliffe</span>
+                  </label>
+                  <label className="quiz-option">
+                    <input 
+                      type="radio" 
+                      name="q1" 
+                      value="c" 
+                      checked={quizAnswers.q1 === 'c'} 
+                      onChange={() => handleAnswerChange('q1', 'c')} 
+                    />
+                    <span>Tom Felton</span>
+                  </label>
+                </div>
+              </div>
+              
+              <div className="quiz-question">
+                <h3>2. When was Harry Potter born?</h3>
+                <div className="quiz-options">
+                  <label className="quiz-option">
+                    <input 
+                      type="radio" 
+                      name="q2" 
+                      value="a" 
+                      checked={quizAnswers.q2 === 'a'} 
+                      onChange={() => handleAnswerChange('q2', 'a')} 
+                      required
+                    />
+                    <span>July 31, 1981</span>
+                  </label>
+                  <label className="quiz-option">
+                    <input 
+                      type="radio" 
+                      name="q2" 
+                      value="b" 
+                      checked={quizAnswers.q2 === 'b'} 
+                      onChange={() => handleAnswerChange('q2', 'b')} 
+                    />
+                    <span>June 25, 1980</span>
+                  </label>
+                  <label className="quiz-option">
+                    <input 
+                      type="radio" 
+                      name="q2" 
+                      value="c" 
+                      checked={quizAnswers.q2 === 'c'} 
+                      onChange={() => handleAnswerChange('q2', 'c')} 
+                    />
+                    <span>July 31, 1980</span>
+                  </label>
+                </div>
+              </div>
+              
+              <div className="quiz-question">
+                <h3>3. Where is Hogwarts School of Witchcraft and Wizardry located?</h3>
+                <div className="quiz-options">
+                  <label className="quiz-option">
+                    <input 
+                      type="radio" 
+                      name="q3" 
+                      value="a" 
+                      checked={quizAnswers.q3 === 'a'} 
+                      onChange={() => handleAnswerChange('q3', 'a')} 
+                      required
+                    />
+                    <span>Scottish Highlands</span>
+                  </label>
+                  <label className="quiz-option">
+                    <input 
+                      type="radio" 
+                      name="q3" 
+                      value="b" 
+                      checked={quizAnswers.q3 === 'b'} 
+                      onChange={() => handleAnswerChange('q3', 'b')} 
+                    />
+                    <span>Northern Wales</span>
+                  </label>
+                  <label className="quiz-option">
+                    <input 
+                      type="radio" 
+                      name="q3" 
+                      value="c" 
+                      checked={quizAnswers.q3 === 'c'} 
+                      onChange={() => handleAnswerChange('q3', 'c')} 
+                    />
+                    <span>Southern England</span>
+                  </label>
+                </div>
+              </div>
+              
+              <div className="quiz-question">
+                <h3>4. What does magic symbolize in the Harry Potter series?</h3>
+                <div className="quiz-options">
+                  <label className="quiz-option">
+                    <input 
+                      type="radio" 
+                      name="q4" 
+                      value="a" 
+                      checked={quizAnswers.q4 === 'a'} 
+                      onChange={() => handleAnswerChange('q4', 'a')} 
+                      required
+                    />
+                    <span>Only entertainment and fantasy elements</span>
+                  </label>
+                  <label className="quiz-option">
+                    <input 
+                      type="radio" 
+                      name="q4" 
+                      value="b" 
+                      checked={quizAnswers.q4 === 'b'} 
+                      onChange={() => handleAnswerChange('q4', 'b')} 
+                    />
+                    <span>Power, growth, and identity</span>
+                  </label>
+                  <label className="quiz-option">
+                    <input 
+                      type="radio" 
+                      name="q4" 
+                      value="c" 
+                      checked={quizAnswers.q4 === 'c'} 
+                      onChange={() => handleAnswerChange('q4', 'c')} 
+                    />
+                    <span>Only technological advancement</span>
+                  </label>
+                </div>
+              </div>
+              
+              <div className="quiz-question">
+                <h3>5. What does the "K" in J.K. Rowling's name stand for?</h3>
+                <div className="quiz-options">
+                  <label className="quiz-option">
+                    <input 
+                      type="radio" 
+                      name="q5" 
+                      value="a" 
+                      checked={quizAnswers.q5 === 'a'} 
+                      onChange={() => handleAnswerChange('q5', 'a')} 
+                      required
+                    />
+                    <span>Katherine, her middle name</span>
+                  </label>
+                  <label className="quiz-option">
+                    <input 
+                      type="radio" 
+                      name="q5" 
+                      value="b" 
+                      checked={quizAnswers.q5 === 'b'} 
+                      onChange={() => handleAnswerChange('q5', 'b')} 
+                    />
+                    <span>King, her husband's surname</span>
+                  </label>
+                  <label className="quiz-option">
+                    <input 
+                      type="radio" 
+                      name="q5" 
+                      value="c" 
+                      checked={quizAnswers.q5 === 'c'} 
+                      onChange={() => handleAnswerChange('q5', 'c')} 
+                    />
+                    <span>It's a tribute to her grandmother Kathleen</span>
+                  </label>
+                </div>
+              </div>
+              
+              <div className="quiz-question">
+                <h3>6. Who are Harry's best friends at Hogwarts?</h3>
+                <div className="quiz-options">
+                  <label className="quiz-option">
+                    <input 
+                      type="radio" 
+                      name="q6" 
+                      value="a" 
+                      checked={quizAnswers.q6 === 'a'} 
+                      onChange={() => handleAnswerChange('q6', 'a')} 
+                      required
+                    />
+                    <span>Ron Weasley and Hermione Granger</span>
+                  </label>
+                  <label className="quiz-option">
+                    <input 
+                      type="radio" 
+                      name="q6" 
+                      value="b" 
+                      checked={quizAnswers.q6 === 'b'} 
+                      onChange={() => handleAnswerChange('q6', 'b')} 
+                    />
+                    <span>Neville Longbottom and Luna Lovegood</span>
+                  </label>
+                  <label className="quiz-option">
+                    <input 
+                      type="radio" 
+                      name="q6" 
+                      value="c" 
+                      checked={quizAnswers.q6 === 'c'} 
+                      onChange={() => handleAnswerChange('q6', 'c')} 
+                    />
+                    <span>Draco Malfoy and Ginny Weasley</span>
+                  </label>
+                </div>
+              </div>
+              
+              <div className="quiz-question">
+                <h3>7. How many books are in the main Harry Potter series?</h3>
+                <div className="quiz-options">
+                  <label className="quiz-option">
+                    <input 
+                      type="radio" 
+                      name="q7" 
+                      value="a" 
+                      checked={quizAnswers.q7 === 'a'} 
+                      onChange={() => handleAnswerChange('q7', 'a')} 
+                      required
+                    />
+                    <span>8</span>
+                  </label>
+                  <label className="quiz-option">
+                    <input 
+                      type="radio" 
+                      name="q7" 
+                      value="b" 
+                      checked={quizAnswers.q7 === 'b'} 
+                      onChange={() => handleAnswerChange('q7', 'b')} 
+                    />
+                    <span>7</span>
+                  </label>
+                  <label className="quiz-option">
+                    <input 
+                      type="radio" 
+                      name="q7" 
+                      value="c" 
+                      checked={quizAnswers.q7 === 'c'} 
+                      onChange={() => handleAnswerChange('q7', 'c')} 
+                    />
+                    <span>6</span>
+                  </label>
+                </div>
+              </div>
+              
+              <div className="quiz-question">
+                <h3>8. What is the famous platform at King's Cross Station where the Hogwarts Express departs?</h3>
+                <div className="quiz-options">
+                  <label className="quiz-option">
+                    <input 
+                      type="radio" 
+                      name="q8" 
+                      value="a" 
+                      checked={quizAnswers.q8 === 'a'} 
+                      onChange={() => handleAnswerChange('q8', 'a')} 
+                      required
+                    />
+                    <span>Platform 7½</span>
+                  </label>
+                  <label className="quiz-option">
+                    <input 
+                      type="radio" 
+                      name="q8" 
+                      value="b" 
+                      checked={quizAnswers.q8 === 'b'} 
+                      onChange={() => handleAnswerChange('q8', 'b')} 
+                    />
+                    <span>Platform 10¾</span>
+                  </label>
+                  <label className="quiz-option">
+                    <input 
+                      type="radio" 
+                      name="q8" 
+                      value="c" 
+                      checked={quizAnswers.q8 === 'c'} 
+                      onChange={() => handleAnswerChange('q8', 'c')} 
+                    />
+                    <span>Platform 9¾</span>
+                  </label>
+                </div>
+              </div>
+              
+              <button type="submit" className="quiz-submit-btn">Submit Answers</button>
+            </form>
+          ) : (
+            <div className="quiz-results">
+              <h3>Your Score: {score} out of 8</h3>
+              <p className="quiz-feedback">
+                {score === 8 ? 
+                  "Perfect! You're a true Harry Potter expert!" : 
+                  score >= 6 ? 
+                  "Great job! You know your Harry Potter very well!" :
+                  score >= 4 ?
+                  "Not bad! You have a good understanding of the Harry Potter universe." :
+                  "It seems you might need to revisit the magical world of Harry Potter again!"}
+              </p>
+              <button onClick={resetQuiz} className="quiz-reset-btn">Try Again</button>
+            </div>
+          )}
+        </div>
       </section>
 
       <section id="conclusion">

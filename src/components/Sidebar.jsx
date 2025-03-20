@@ -58,6 +58,9 @@ const Sidebar = ({ sidebarOpen }) => {
               <li><a href="#relevance-world">A Rich, Immersive World</a></li>
             </ul>
           </li>
+          <li>
+            <a href="#quizz">Quizz time!!</a>
+          </li>
         </ul>
       </nav>
     </div>
